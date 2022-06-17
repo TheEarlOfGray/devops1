@@ -57,7 +57,6 @@ def createEntry(f_name, l_name):
 def add_owner():
     form = OwnerForm()
 
-
     if request.method == 'POST':
         if form.validate_on_submit():
             new_entry = Owners(first_name=form.first_name.data, last_name=form.last_name.data)
@@ -65,21 +64,22 @@ def add_owner():
             db.session.commit()
             return redirect(url_for('homePage'))
 
-
     return render_template('add_owner.html', form=form)
 
 
+@app.route('/update/<int:id>', methods=["GET", "POST"])
+def update(id):
+    form = OwnerForm()
 
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            updated_item = Owners.query.get(id)
+            updated_item.first_name = form.first_name.data
+            updated_item.last_name = form.last_name.data
+            db.session.commit()
+            return redirect(url_for("homePage"))
 
-
-
-
-@app.route('/update/<int:id>/<name>')
-def update(id, name):
-    updated_item = Owners.query.get(id)
-    updated_item.first_name = name
-    db.session.commit()
-    return redirect(url_for("homePage"))
+    return render_template('add_owner.html', form=form)
 
 
 @app.route('/delete/<int:id>')
