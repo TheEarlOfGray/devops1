@@ -10,7 +10,8 @@
 
 
 {% for owner in list1 %}
-<p>Name: {{ owner.first_name }}</p>
+<p>Name: {{ owner.first_name }} {{ owner.last_name }}</p>
+<div><a href="{{ url_for('delete', id=owner.id) }}"><button>Delete</button></a><a href="{{ url_for('update', id=owner.id) }}"><button>Update</button></a></div>
 {% endfor %}
 
 
